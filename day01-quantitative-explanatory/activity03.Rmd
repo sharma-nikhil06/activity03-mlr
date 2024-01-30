@@ -31,7 +31,9 @@ Remember that [Emil Hvitfeldt](https://www.emilhvitfeldt.com/) (of Posit) has pu
 - Run the `load-packages` code chunk or **knit** <img src="../README-img/knit-icon.png" alt="knit" width = "20"/> icon your Rmd document to verify that no errors occur.
 
 ```{r load-packages}
-
+library(tidymodels)
+library(tidyverse)
+library(GGally)
 ```
 
 Since we will be looking at many relationships graphically, it will be nice to not have to code each of these individually.
@@ -62,12 +64,26 @@ Create a new R code chunk below that is titled `load-data` and reads in the abov
 - Assign this data set into a data frame named `hfi` (short for "Human Freedom Index").
 - Filter the data `hfi` data frame for year 2016 and assigns the result to an R data object named `hfi_2016`. You will use `hfi_2016` for the remainder of this activity.
 
+```{r load-data}
+hfi <- readr::read_tsv("hfi.txt")
+hfi_2016 <- filter(hfi, year == "2016")
+hfi
+hfi_2016
+```
+
+
 We will continue using personal freedom scores, `pf_score`, as the response variable and build on our model that had `pf_expression_control` as the explanatory variable. 
 
 Create a new R code chunk below, with an appropriate title, that does the following:
 
 - Review the about page of the data set and select at least one additional numeric variables (hint: look for `<dbl>` or `<int>` designations) to describe its distribution. Remember to write your description.
 - You may also wish to do this for `pf_score` and `pf_expression_control` again to help you remember what you noticed last week.
+
+```{r}
+hf_score
+
+```
+
 
 ## Pairwise relationships
 
