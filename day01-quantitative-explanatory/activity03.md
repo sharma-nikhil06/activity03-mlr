@@ -63,7 +63,7 @@ library(tidymodels)
     ## ✖ dplyr::filter()  masks stats::filter()
     ## ✖ dplyr::lag()     masks stats::lag()
     ## ✖ recipes::step()  masks stats::step()
-    ## • Use suppressPackageStartupMessages() to eliminate package startup messages
+    ## • Use tidymodels_prefer() to resolve common conflicts.
 
 ``` r
 library(tidyverse)
@@ -481,7 +481,7 @@ variables have only two levels. Fortunately, we can create our own.
 ``` r
 hfi_2016 <- hfi_2016 %>%
   mutate(west_atlantic = if_else(
-    region %in% c("North America", "Latin America & the Caribbean"),
+    ! region %in% c("North America", "Latin America & the Caribbean"),
     "No",
     "Yes"
   ))
@@ -527,8 +527,8 @@ tidy(qual_mod)
     ## # A tibble: 3 × 5
     ##   term                  estimate std.error statistic  p.value
     ##   <chr>                    <dbl>     <dbl>     <dbl>    <dbl>
-    ## 1 (Intercept)              4.38     0.213     20.5   1.57e-46
-    ## 2 west_atlanticYes        -0.102    0.167     -0.612 5.41e- 1
+    ## 1 (Intercept)              4.27     0.150     28.5   2.30e-64
+    ## 2 west_atlanticYes         0.102    0.167      0.612 5.41e- 1
     ## 3 pf_expression_control    0.540    0.0273    19.8   1.01e-44
 
 When looking at your `ggpairs` output, remember to ask yourself, “does
@@ -707,10 +707,10 @@ tidy(int_mod)
     ## # A tibble: 4 × 5
     ##   term                                   estimate std.error statistic  p.value
     ##   <chr>                                     <dbl>     <dbl>     <dbl>    <dbl>
-    ## 1 (Intercept)                               5.72     0.459      12.5  2.76e-25
-    ## 2 west_atlanticYes                         -1.60     0.484      -3.30 1.18e- 3
-    ## 3 pf_expression_control                     0.296    0.0789      3.75 2.45e- 4
-    ## 4 west_atlanticYes:pf_expression_control    0.275    0.0838      3.28 1.26e- 3
+    ## 1 (Intercept)                               4.12     0.153      27.0  4.42e-61
+    ## 2 west_atlanticYes                          1.60     0.484       3.30 1.18e- 3
+    ## 3 pf_expression_control                     0.571    0.0281     20.3  6.96e-46
+    ## 4 west_atlanticYes:pf_expression_control   -0.275    0.0838     -3.28 1.26e- 3
 
 Note that I shortened the model statement using
 `qualitative * quantitative`, but this can sometimes be confusing to
@@ -753,7 +753,7 @@ this to our candidate model (`int_mod`).
 
 ``` default
 # null model
-null_mod <- lm_spec %>% 
+null_mod <- lm_spec %>%
 fit(response ~ 1, data = data)
 
 anova(

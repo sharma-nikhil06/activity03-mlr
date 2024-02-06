@@ -288,7 +288,7 @@ Fortunately, we can create our own.
 ```{r binary-pred}
 hfi_2016 <- hfi_2016 %>%
   mutate(west_atlantic = if_else(
-    region %in% c("North America", "Latin America & the Caribbean"),
+    ! region %in% c("North America", "Latin America & the Caribbean"),
     "No",
     "Yes"
   ))
@@ -465,7 +465,7 @@ One way to check this is to build our null model (no predictors) and then compar
   
 ```{verbatim mod-comp}
 # null model
-null_mod <- lm_spec %>% 
+null_mod <- lm_spec %>%
 fit(response ~ 1, data = data)
 
 anova(
